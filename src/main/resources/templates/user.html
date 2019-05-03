@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>hello</title>
+</head>
+<body>
+
+<h1 th:text="${msg}">大家好</h1>
+<h2 th:text="'欢迎'"></h2>
+<h2 th:text="2000+19"></h2>
+<p th:text="${user.username}">小明</p>
+<p th:if="${user.username.startsWith('小头')}">是爸爸哦</p>
+<p th:text="${user.age}">0</p>
+<p th:text="${user.birth}">生日</p>
+<p th:text="${#dates.format(user.birth,'yyyy-MM-dd')}">生日</p>
+<h2>拼接</h2>
+<p th:if="${user.father.age}==0"  th:text="${user.username}+'没有爸爸'"></p>
+<p th:if="${user.father.age}==0"  th:text="|${user.username}没有爸爸|"></p>
+<h2>默认值</h2>
+<span th:text="${user.father} ?: '二狗'"></span>
+
+<div th:object="${bighead}">
+    <p th:text="*{username}"></p>
+    <p th:text="*{father.username}"></p>
+</div>
+
+
+<div th:switch="${user.username}">
+    <p th:case="'大头'">大头儿子</p>
+    <p th:case="'小头'">小头爸爸</p>
+    <p th:case="*">用户是别的玩意</p>
+</div>
+
+<h2>循环</h2>
+<table>
+    <tr th:each="user,stat : ${users}">
+        <td th:text="${user.username}">Onions</td>
+        <td th:text="${user.age}">2.41</td>
+        <td th:text="${stat.index}">index，从0开始的角标</td>
+        <td th:text="${stat.count}">count，元素的个数，从1开始</td>
+        <td th:text="${stat.size}">size，总元素个数</td>
+       <!-- <td th:text="${stat.current}">current，当前遍历到的元素</td>-->
+        <td th:text="${stat.even}">even/odd，返回是否为奇偶，boolean值</td>
+        <td th:text="${stat.first}">first/last，返回是否为第一或最后，boolean值</td>
+    </tr>
+
+</table>
+
+<script th:inline="javascript">
+    var user = /*[[${user}]]*/ {};
+    var age = /*[[${user.age}]]*/ 20;
+    console.log(user);
+    console.log(age);
+</script>
+
+</body>
+</html>
